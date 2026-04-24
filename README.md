@@ -3,7 +3,7 @@
 This script automates the installation of **OpenCV with GStreamer support**, **PyTorch (CUDA)**, and **YOLO** on Ubuntu. 
 It solves the compatibility issues between versions of different tools by using a stable **Python 3.10** environment.
 
-## ✨ Features
+## Features
 * **OpenCV + GStreamer:** Built from source for low-latency robotics video streams.
 * **GPU:** NVIDIA RTX A4000 and CUDA 12.8.
 * **Libraries:** Ultralytics and all necessary dependencies.

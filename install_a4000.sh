@@ -58,9 +58,7 @@ pip install -v --no-binary opencv-python --no-cache-dir opencv-python==4.10.0.84
   
 echo "-------------------------------------------------------"
 echo "[INFO]... Completed!"
-echo "GStreamer:"
 python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer
-echo "CUDA / GPU Device:"
-python3 -c "import torch; print(f'CUDA Aktif: {torch.cuda.is_available()} | Cihaz: {torch.cuda.get_device_name(0)}')"
+python3 -c "import torch; print(f'CUDA: {torch.cuda.is_available()} | Device: {torch.cuda.get_device_name(0)}')"
 echo "-------------------------------------------------------"
 echo "[WARNING]... Source the Virtual Environment: source venv/bin/activate"

@@ -1,42 +1,31 @@
 # GPU & Vision Setup (RTX A4000)
 
-This script automates the installation of **OpenCV with GStreamer support**, **PyTorch (CUDA)**, and **YOLO** on Ubuntu. 
-It solves the compatibility issues between versions of different tools by using a stable **Python 3.10** environment.
-
-## Features
-* **OpenCV + GStreamer:** Built from source for low-latency robotics video streams.
-* **GPU:** NVIDIA RTX A4000 and CUDA 12.8.
-* **Libraries:** Ultralytics and all necessary dependencies.
+One-click installer for **OpenCV (GStreamer)**, **PyTorch (CUDA)**, and **YOLO** on Ubuntu. It uses **Python 3.10** to ensure maximum stability for Computer Vision projects.
 
 ## Installation
 
-Run these commands in your terminal:
-
+Run the commands below one by one:
 ```bash
 git clone https://github.com/grboguz21/gpu_installation
-cd ./gpu_installation
-```
-
-Install dependencies with the commands below:
-
-```bash
+cd gpu_installation
 chmod +x install_a4000.sh
 ./install_a4000.sh
 ```
 
-## What's Included?
-* **Python 3.10** Virtual Environment
-* **OpenCV 4.10** (with GStreamer)
-* **PyTorch 2.9.1** (CUDA 12.8)
-* **Ultralytics** (All YOLO versions)
-* **Tracking Tools:** Filterpy, Lapx, Thop, and more.
+## Features
+* **OpenCV 4.10:** Built from source with **GStreamer** support.
+* **GPU Ready:** Pre-configured for **NVIDIA RTX A4000** (CUDA 12.8).
+* **YOLO & Tracking:** Includes Ultralytics, Filterpy, and Lapx.
 
 ## Verification
-
-After installation, verify the setup:
 
 ```bash
 source venv/bin/activate
 python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer
 ```
-*You should see: `GStreamer: YES (1.x.x)`*
+*Expected output: `GStreamer: YES`*
+
+---
+
+## ✉️ Support & Contact
+If you encounter any issues or have questions, feel free to open an **Issue** on this repository or contact me directly through this page.

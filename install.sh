@@ -22,7 +22,7 @@ echo "---  CUDA 12.8 - PyTorch ---"
 pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
 
 echo "---  requirements.txt packages ---"
-pip install -r requirements.txt
+pip install -r requirements_gstream.txt
 
 echo "--- Building Opencv with Gstreamer ---"
 pip install --no-binary opencv-python opencv-python==4.10.0.84 \

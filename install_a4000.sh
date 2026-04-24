@@ -53,9 +53,9 @@ rm temp_requirements.txt
 echo "[INFO]... OpenCV with Gstreamer"
 export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
 
-pip install --no-binary opencv-python --no-cache-dir opencv-python==4.10.0.84 \
+pip install -v --no-binary opencv-python --no-cache-dir opencv-python==4.10.0.84 \
   --config-settings="cmake.args=-DWITH_GSTREAMER=ON;-DWITH_CUDA=OFF;-DBUILD_EXAMPLES=OFF;-DINSTALL_C_EXAMPLES=OFF;-DBUILD_TESTS=OFF;-DBUILD_PERF_TESTS=OFF"
-
+  
 echo "-------------------------------------------------------"
 echo "[INFO]... Completed!"
 echo "GStreamer:"

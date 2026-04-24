@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Herhangi bir hatada scripti durdur
+
 set -e
 
 echo "--- 1. GStreamer ve Build Sistem Bağımlılıkları Kuruluyor ---"

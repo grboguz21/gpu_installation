@@ -12,6 +12,11 @@ cd gpu_installation
 chmod +x install_a4000.sh
 ./install_a4000.sh
 ```
+After installation finished, you should be able to see this:
+```bash
+GStreamer: YES (1.24.2)
+CUDA: True | Device: NVIDIA RTX A4000
+```
 
 ## Features
 * **OpenCV 4.10:** Built from source with **GStreamer** support.

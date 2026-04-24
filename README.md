@@ -1,6 +1,6 @@
 # GPU & Vision Setup (RTX A4000)
 
-One-click installer for **OpenCV (GStreamer)**, **PyTorch (CUDA)**, and **YOLO** on Ubuntu. It uses **Python 3.10** to ensure maximum stability for Computer Vision projects.
+One-click installer for **OpenCV (GStreamer)**, **PyTorch (CUDA)**, and **YOLO** on Ubuntu (24.0x). It uses **Python 3.10** to ensure maximum stability for Computer Vision projects.
 
 ## Installation
 

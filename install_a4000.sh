@@ -1,64 +1,54 @@
 #!/bin/bash
 
-# Hata oluşursa durdur
+
 set -e
 
-echo "[INFO]... GStreamer & Build Tools"
+export CUDA_HOME=/usr
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$CUDA_HOME/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+echo "[INFO]... CUDA_HOME set to: $CUDA_HOME"
+echo "[INFO]... NVCC check: $(which nvcc)"
+
+
+echo "[INFO]... GStreamer, NVIDIA Drivers & Build Tools"
 sudo apt update
 sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
 gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
 gstreamer1.0-libav gstreamer1.0-tools libgstrtspserver-1.0-dev \
-build-essential cmake git pkg-config python3-dev python3.10-dev python3.10-venv
+build-essential cmake git pkg-config python3-dev python3.10-dev python3.10-venv \
+libgtk2.0-dev pkg-config libva-dev libvdpau-dev \
+ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
+
 
 echo "[INFO]... Python 3.10 Virtual Environment"
-if [ -d "venv" ]; then
-    echo "Cleaning old virtUAL environment..."
-    rm -rf venv
-fi
+[ -d "venv" ] && rm -rf venv
 python3.10 -m venv venv
 source venv/bin/activate
 
-echo "[INFO]... Updating Pip"
+echo "[INFO]... Updating Pip & Installing Requirements"
 pip install --upgrade pip setuptools wheel
-
-echo "[INFO]... CUDA 12.8 Compatible Torch"
 pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
+pip install numpy==2.2.6 matplotlib==3.10.7 Pillow==11.3.0 PyYAML==6.0.2 \
+requests==2.32.5 scipy==1.15.3 tqdm==4.67.1 ultralytics==8.3.7
 
-echo "[INFO]... Installing Requirements"
-cat <<EOT > temp_requirements.txt
-ultralytics==8.3.7
-matplotlib==3.10.7
-numpy==2.2.6
-Pillow==11.3.0
-PyYAML==6.0.2
-requests==2.32.5
-scipy==1.15.3
-tqdm==4.67.1
-pycocotools==2.0.11
-tensorboard==2.20.0
-pandas==2.3.3
-seaborn==0.13.2
-psutil==7.0.0
-thop==0.1.1-2209072238
-easydict==1.13
-filterpy==1.4.5
-gdown==5.2.0
-lapx==0.5.11
-EOT
 
-pip install -r temp_requirements.txt
-rm temp_requirements.txt
+echo "[INFO]... OpenCV with GStreamer & CUDA"
 
-echo "[INFO]... OpenCV with Gstreamer"
+
+CUDA_ARCH=$(python3 -c "import subprocess; out=subprocess.check_output(['nvidia-smi','--query-gpu=compute_cap','--format=csv,noheader']).decode(); print(out.strip().split('\n')[0])")
+
 export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
 
+
 pip install -v --no-binary opencv-python --no-cache-dir opencv-python==4.10.0.84 \
-  --config-settings="cmake.args=-DWITH_GSTREAMER=ON;-DWITH_CUDA=OFF;-DBUILD_EXAMPLES=OFF;-DINSTALL_C_EXAMPLES=OFF;-DBUILD_TESTS=OFF;-DBUILD_PERF_TESTS=OFF"
-  
+  --config-settings="cmake.args=-DWITH_GSTREAMER=ON -DWITH_GTK=ON -DWITH_CUDA=ON -DWITH_CUDNN=ON -DOPENCV_DNN_CUDA=ON -DWITH_NVCUVID=ON -DWITH_NVCUVENC=ON -DCUDA_ARCH_BIN=${CUDA_ARCH} -DCUDA_FAST_MATH=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF"
+
+
 echo "-------------------------------------------------------"
 echo "[INFO]... Completed!"
-python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer
-python3 -c "import torch; print(f'CUDA: {torch.cuda.is_available()} | Device: {torch.cuda.get_device_name(0)}')"
+python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -iE "GStreamer|NVIDIA CUDA|NVCUVID"
+python3 -c "import torch; print(f'Torch CUDA: {torch.cuda.is_available()} | Device: {torch.cuda.get_device_name(0)}')"
 echo "-------------------------------------------------------"
-echo "[WARNING]... Source the Virtual Environment: source venv/bin/activate"
+echo "[WARNING]... To activate: source venv/bin/activate"

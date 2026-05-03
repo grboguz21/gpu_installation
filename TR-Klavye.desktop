@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=TR Klavye
+Exec=setxkbmap -model pc104 -layout tr
+Terminal=false
+
